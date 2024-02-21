@@ -45,26 +45,13 @@ header {
   padding: 2rem 8.4rem;
   color: #fff;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
   background-color: #ffffff;
   box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
 
   background-color: #7b1fa2;
-
-  .header__left-side,
-  .header__center,
-  .header__right-side {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-
-    &:first-child {
-      margin-right: auto;
-    }
-    &:last-child {
-      margin-left: auto;
-    }
-  }
 
   .header__left-side {
     display: flex;
@@ -72,7 +59,7 @@ header {
   }
   .header__right-side {
     display: flex;
-    align-items: center;
+    justify-content: end;
   }
 
   .header__center {
