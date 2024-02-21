@@ -21,7 +21,6 @@
           class="header-search-bar__input"
           placeholder="busque pela loja ou culinária"
         />
-        type="email"
       </div>
     </div>
 
@@ -124,7 +123,6 @@ header {
         border: none;
         outline: none;
         margin-left: 8px;
-        min-width: 420px;
         font-weight: 600;
         color: #6d6f73;
         opacity: 0.7;
