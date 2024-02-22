@@ -51,6 +51,7 @@
             },
           ],
         }"
+        v-model="formData.productSize"
       />
       <ExtraOptions
         title="vai querer bebida"
@@ -69,6 +70,7 @@
             price: '3,00',
           },
         ]"
+        v-model="formData.selectedDrinks"
       />
       <ExtraOptions
         title="precisa de talher?"
@@ -85,6 +87,7 @@
             },
           ],
         }"
+        v-model="formData.extraSilverware"
       />
       <ExtraOptions
         title="mais alguma coisa?"
@@ -99,6 +102,7 @@
             price: '8,00',
           },
         ]"
+        v-model="formData.extraItems"
       />
 
       <div class="product-notes">
@@ -110,11 +114,21 @@
       </div>
     </div>
   </div>
+
+  <pre style="font-size: 1.8rem;">
+    {{ formData }}
+  </pre>
 </template>
 
 <script setup lang="ts">
+import { reactive } from "vue";
 import ExtraOptions from "./ExtraOptions.vue";
-
+const formData = reactive({
+  productSize: "",
+  selectedDrinks: [],
+  extraSilverware: "",
+  extraItems: [],
+});
 </script>
 
 <style lang="scss">

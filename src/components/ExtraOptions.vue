@@ -25,11 +25,15 @@
           <div style="display: flex; gap: 0.8rem; align-items: center">
             <button
               class="extra-option__item-quantity-btn extra-option__item-quantity-btn--minus"
+              @click="counter--"
             ></button>
 
-            <p class="extra-option__item-counter">0</p>
+            <p class="extra-option__item-counter">
+              {{ counter }}
+            </p>
 
             <button
+              @click="counter++"
               class="extra-option__item-quantity-btn extra-option__item-quantity-btn--plus"
             ></button>
           </div>
@@ -72,6 +76,8 @@
             :name="`extra-option__item--single--${singleOption?.name}`"
             :id="item.name"
             :value="item.name"
+            v-model="modelValue"
+            @change="$emit('update:modelValue', modelValue)"
           />
           <CurrencyDollarIcon
             class="extra-option__item-promotion-icon"
@@ -109,7 +115,13 @@
         class="extra-option__item--multiple"
       >
         <div style="display: flex; gap: 0.8rem; align-items: center">
-          <input :id="item.name" type="checkbox" />
+          <input
+            :id="item.name"
+            type="checkbox"
+            v-model="modelValue"
+            :value="item.name"
+            @change="$emit('update:modelValue', modelValue)"
+          />
           <CurrencyDollarIcon v-if="item.promotion" />
           <label :for="item.name" class="extra-option__item-name">
             {{ item.name }}
@@ -140,6 +152,41 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { CurrencyDollarIcon } from "@heroicons/vue/24/outline";
+import { ref } from "vue";
+
+interface SingleOption {
+  name: string;
+  items: { name: string; price?: string; promotion?: string }[];
+}
+
+interface MultipleOptions {
+  name: string;
+  price: string;
+  promotion?: string;
+}
+
+interface QuantitativeOptions {
+  name: string;
+  price: string;
+  promotion?: string;
+}
+
+const props = defineProps<{
+  title: string;
+  subtitle: string;
+  mandatory?: boolean;
+  singleOption?: SingleOption;
+  chooseQuantityType?: QuantitativeOptions[];
+  multipleOptions?: MultipleOptions[];
+  modelValue?: any;
+}>();
+
+const modelValue = ref(props.modelValue);
+let counter = ref(0);
+</script>
 
 <style lang="scss">
 .extra-option {
@@ -300,33 +347,3 @@
   }
 }
 </style>
-
-<script setup lang="ts">
-import { CurrencyDollarIcon } from "@heroicons/vue/24/outline";
-
-interface SingleOption {
-  name: string;
-  items: { name: string; price?: string; promotion?: string }[];
-}
-
-interface MultipleOptions {
-  name: string;
-  price: string;
-  promotion?: string;
-}
-
-interface QuantitativeOptions {
-  name: string;
-  price: string;
-  promotion?: string;
-}
-
-const props = defineProps<{
-  title: string;
-  subtitle: string;
-  mandatory?: boolean;
-  singleOption?: SingleOption;
-  chooseQuantityType?: QuantitativeOptions[];
-  multipleOptions?: MultipleOptions[];
-}>();
-</script>
