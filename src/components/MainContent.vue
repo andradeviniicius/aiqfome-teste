@@ -110,18 +110,11 @@
       </div>
     </div>
   </div>
-teste
-  {{ isDrawerOpen }}
 </template>
 
 <script setup lang="ts">
 import ExtraOptions from "./ExtraOptions.vue";
-import { storeToRefs } from "pinia";
-import { productDetailsStore } from "@/store/app";
 
-const store = productDetailsStore();
-
-const { isDrawerOpen } = storeToRefs(store);
 </script>
 
 <style lang="scss">
