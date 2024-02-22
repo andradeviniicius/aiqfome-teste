@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import Header from "./components/Header.vue";
+import Header from "@components/Header.vue";
+import MainContent from "@components/MainContent.vue";
 </script>
 
 <template>
   <Header />
 
-  <div class="restaurant">
-    <img class="restaurant__logo" src="@assets/matsuri-logo.svg" alt="" />
-    <h1 class="restaurant__title">Matsuri Concept</h1>
-  </div>
-
-  <div class="main-dish"></div>
+  <MainContent />
 
   <footer>
     <p>feito com 💜 em maringá-PR</p>
@@ -21,10 +17,7 @@ import Header from "./components/Header.vue";
 <style lang="scss">
 footer {
   color: #580f78;
-
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  margin-top: 4.8rem;
 
   width: 100%;
 
@@ -45,5 +38,11 @@ footer {
     font-weight: 700;
     font-size: 1.8rem;
   }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 </style>
