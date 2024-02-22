@@ -20,6 +20,12 @@ export default defineConfig({
           new URL("./src/components", import.meta.url)
         ),
       },
+      {
+        find: "@composable",
+        replacement: fileURLToPath(
+          new URL("./src/composable", import.meta.url)
+        ),
+      },
     ],
   },
 });
