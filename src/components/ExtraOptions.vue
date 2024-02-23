@@ -26,6 +26,7 @@
           :isPromotion="item.promotion"
           :price="item.price"
           @updateCounter="sendCounterUpwards"
+          v-model="modelValue"
         />
         <div v-if="!item.promotion" class="extra-options__item-price-container">
           <p v-if="item.price" class="extra-option__item-price">
@@ -59,7 +60,10 @@
             type="radio"
             :name="`extra-option__item--single--${singleOption?.name}`"
             :id="item.name"
-            :value="{ name: item.name, price: item.promotion ? item.promotion : item.price }"
+            :value="{
+              name: item.name,
+              price: item.promotion ? item.promotion : item.price,
+            }"
             v-model="modelValue"
             @change="$emit('update:modelValue', modelValue)"
           />
@@ -141,33 +145,11 @@
 import { CurrencyDollarIcon } from "@heroicons/vue/24/outline";
 import { ref, defineEmits } from "vue";
 import Counter from "@components/Counter.vue";
+import {
+  ExtraOptionsProps,
+} from "../types/extra-option";
 
-interface SingleOption {
-  name: string;
-  items: { name: string; price?: string; promotion?: string }[];
-}
-
-interface MultipleOptions {
-  name: string;
-  price: string;
-  promotion?: string;
-}
-
-interface QuantitativeOptions {
-  name: string;
-  price: string;
-  promotion?: string;
-}
-
-const props = defineProps<{
-  title: string;
-  subtitle: string;
-  mandatory?: boolean;
-  singleOption?: SingleOption;
-  chooseQuantityType?: QuantitativeOptions[];
-  multipleOptions?: MultipleOptions[];
-  modelValue?: any;
-}>();
+const props = defineProps<ExtraOptionsProps>();
 const emit = defineEmits();
 const modelValue = ref(props.modelValue);
 
@@ -247,6 +229,13 @@ function sendCounterUpwards(e: any) {
       display: inline-block;
       vertical-align: middle;
       cursor: pointer;
+      background: none;
+
+      &.large {
+        height: 3.6rem;
+        width: 3.6rem;
+        font-size: 1.6rem;
+      }
 
       &--plus {
         border: 1px solid #00a296;
@@ -272,10 +261,23 @@ function sendCounterUpwards(e: any) {
           margin: auto 0.5rem;
           height: 0.15rem;
         }
+
+        &.large {
+          &::before {
+            width: 0.2rem;
+            margin: 1.1rem auto;
+            border-radius: 5px;
+          }
+          &::after {
+            border-radius: 5px;
+            margin: auto 1.1rem;
+            height: 0.2rem;
+          }
+        }
       }
 
       &--minus {
-        border: 1px solid #a8adb7;
+        border: 1px solid #00a296;
 
         &::before {
           content: "";
@@ -284,10 +286,26 @@ function sendCounterUpwards(e: any) {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #a8adb7;
+          background: #00a296;
           margin: auto 0.5rem;
           border-radius: 5px;
-          height: 0.15rem;
+          height: 0.2rem;
+        }
+
+        &.large {
+          &::before {
+            margin: auto 1.1rem;
+          }
+        }
+
+        &.disabled {
+          background: #eef0f5;
+          border: 1px solid #eef0f5;
+          cursor: not-allowed;
+
+          &::before {
+            background: #a8adb7;
+          }
         }
       }
     }
@@ -297,6 +315,11 @@ function sendCounterUpwards(e: any) {
       font-weight: 700;
       line-height: 1.9rem;
       color: #393a3c;
+      padding: 1.1rem;
+
+      &.large {
+        font-size: 1.6rem;
+      }
     }
 
     &-promotion-icon {

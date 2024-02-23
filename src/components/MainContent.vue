@@ -22,16 +22,42 @@
         </div>
 
         <div class="product-overview__add-container">
-          <p class="product-overview__text product-overview__text--quantity">
-            quantos?
-          </p>
-          <button class="product-overview__add-btn">adicionar</button>
+          <div>
+            <p class="product-overview__text product-overview__text--quantity">
+              quantos?
+            </p>
+            <p v-if="showOrderCount" class="product-overview__text--total">
+              total <span>{{ orderSummary }}</span>
+            </p>
+          </div>
+          <button
+            v-if="!showOrderCount"
+            @click="showOrderCount = !showOrderCount"
+            class="product-overview__add-btn"
+          >
+            adicionar
+          </button>
+
+          <Counter
+            showTrashCanWhenCounterZero
+            @trashCanClick="
+              resetForm();
+              showOrderCount = !showOrderCount;
+            "
+            @updateCounter="handleAddQuantity"
+            size="large"
+            :startCounterAt="1"
+            v-else
+          />
         </div>
       </div>
 
       <img class="product-image" src="@assets/ceviche.png" />
     </div>
-
+    <pre style="font-size: 1.8rem">
+    {{ formData }}
+  </pre
+    >
     <div class="product-details">
       <ExtraOptions
         title="qual o tamanho?"
@@ -115,33 +141,27 @@
       </div>
     </div>
   </div>
-
-  <pre style="font-size: 1.8rem">
-    {{ formData }}
-  </pre>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 import ExtraOptions from "./ExtraOptions.vue";
-type Drinks = {
-  name: string;
-  quantity: number;
-};
+import Counter from "./Counter.vue";
+import { FormData, QuantitativeItem } from "../types/main-content";
 
-const formData = reactive<{
-  productSize: string;
-  selectedDrinks: Drinks[];
-  extraSilverware: string;
-  extraItems: [];
-}>({
-  productSize: "",
+const initialFormState: FormData = {
+  productSize: { price: "0", name: "empty" },
   selectedDrinks: [],
-  extraSilverware: "",
+  extraSilverware: { price: "0", name: "empty" },
   extraItems: [],
-});
+};
+const formData = reactive<FormData>({ ...initialFormState });
 
-function addSelectedDrinks(e: { name: string; quantity: number }) {
+function resetForm() {
+  Object.assign(formData, initialFormState);
+}
+
+function addSelectedDrinks(e: QuantitativeItem) {
   const indexOfItemToChange = formData.selectedDrinks.findIndex(
     (find) => find.name === e.name
   );
@@ -156,6 +176,41 @@ function addSelectedDrinks(e: { name: string; quantity: number }) {
     formData.selectedDrinks.push(e);
   }
 }
+
+let counter = ref(0);
+function handleAddQuantity(e: any) {
+  counter.value = e.quantity;
+}
+
+const orderSummary = computed(() => {
+  let totalAmount = 0;
+
+  // preço total tamanho do produto
+  if (formData.productSize && formData.productSize.price) {
+    totalAmount += parseFloat(formData.productSize.price.replace(",", "."));
+  }
+
+  // preço total selected drinks
+  formData.selectedDrinks.forEach((drink) => {
+    totalAmount += parseFloat(drink.price.replace(",", ".")) * drink.quantity;
+  });
+
+  // preço total talhers
+  if (formData.extraSilverware && formData.extraSilverware.price) {
+    totalAmount += parseFloat(formData.extraSilverware.price.replace(",", "."));
+  }
+
+  // preço total itens extra
+  formData.extraItems.forEach((item) => {
+    totalAmount += parseFloat(item.price.replace(",", "."));
+  });
+
+  totalAmount *= counter.value;
+
+  return `${totalAmount.toFixed(2)}`;
+});
+
+let showOrderCount = ref(false);
 </script>
 
 <style lang="scss">
@@ -200,6 +255,18 @@ function addSelectedDrinks(e: { name: string; quantity: number }) {
 
       &--quantity {
         color: #393a3c;
+      }
+      &--total {
+        color: #6d6f73;
+        font-weight: 600;
+        line-height: 1.9rem;
+        font-size: 1.4rem;
+        span {
+          line-height: 1.9rem;
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: #393a3c;
+        }
       }
     }
 
