@@ -21,28 +21,12 @@
         v-for="item in chooseQuantityType"
         class="extra-option__item--quantitative"
       >
-        <div style="display: flex; align-items: center; gap: 0.8rem">
-          <div style="display: flex; gap: 0.8rem; align-items: center">
-            <button
-              class="extra-option__item-quantity-btn extra-option__item-quantity-btn--minus"
-              @click="counter--"
-            ></button>
-
-            <p class="extra-option__item-counter">
-              {{ counter }}
-            </p>
-
-            <button
-              @click="counter++"
-              class="extra-option__item-quantity-btn extra-option__item-quantity-btn--plus"
-            ></button>
-          </div>
-          <CurrencyDollarIcon v-if="item.promotion" />
-          <p class="extra-option__item-name">
-            {{ item.name }}
-          </p>
-        </div>
-
+        <Counter
+          :name="item.name"
+          :isPromotion="item.promotion"
+          :price="item.price"
+          @updateCounter="test"
+        />
         <div v-if="!item.promotion" class="extra-options__item-price-container">
           <p v-if="item.price" class="extra-option__item-price">
             +R$ {{ item.price }}
@@ -75,7 +59,7 @@
             type="radio"
             :name="`extra-option__item--single--${singleOption?.name}`"
             :id="item.name"
-            :value="item.name"
+            :value="{ name: item.name, price: item.promotion ? item.promotion : item.price }"
             v-model="modelValue"
             @change="$emit('update:modelValue', modelValue)"
           />
@@ -119,7 +103,7 @@
             :id="item.name"
             type="checkbox"
             v-model="modelValue"
-            :value="item.name"
+            :value="{ name: item.name, price: item.price }"
             @change="$emit('update:modelValue', modelValue)"
           />
           <CurrencyDollarIcon v-if="item.promotion" />
@@ -155,7 +139,8 @@
 
 <script setup lang="ts">
 import { CurrencyDollarIcon } from "@heroicons/vue/24/outline";
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
+import Counter from "@components/Counter.vue";
 
 interface SingleOption {
   name: string;
@@ -183,9 +168,12 @@ const props = defineProps<{
   multipleOptions?: MultipleOptions[];
   modelValue?: any;
 }>();
-
+const emit = defineEmits();
 const modelValue = ref(props.modelValue);
-let counter = ref(0);
+
+function test(e: any) {
+  emit("updateCounterAgain", e);
+}
 </script>
 
 <style lang="scss">
@@ -247,6 +235,7 @@ let counter = ref(0);
     &--single {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
     &-quantity-btn {

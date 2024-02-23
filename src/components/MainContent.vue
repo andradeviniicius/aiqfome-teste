@@ -71,6 +71,7 @@
           },
         ]"
         v-model="formData.selectedDrinks"
+        @updateCounterAgain="test"
       />
       <ExtraOptions
         title="precisa de talher?"
@@ -115,7 +116,7 @@
     </div>
   </div>
 
-  <pre style="font-size: 1.8rem;">
+  <pre style="font-size: 1.8rem">
     {{ formData }}
   </pre>
 </template>
@@ -123,12 +124,38 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import ExtraOptions from "./ExtraOptions.vue";
-const formData = reactive({
+type Drinks = {
+  name: string;
+  quantity: number;
+};
+
+const formData = reactive<{
+  productSize: string;
+  selectedDrinks: Drinks[];
+  extraSilverware: string;
+  extraItems: [];
+}>({
   productSize: "",
   selectedDrinks: [],
   extraSilverware: "",
   extraItems: [],
 });
+
+function test(e: { name: string; quantity: number }) {
+  const indexOfItemToChange = formData.selectedDrinks.findIndex(
+    (find) => find.name === e.name
+  );
+
+  if (indexOfItemToChange !== -1) {
+    formData.selectedDrinks[indexOfItemToChange] = e;
+
+    if (e.quantity === 0) {
+      formData.selectedDrinks.splice(indexOfItemToChange, 1);
+    }
+  } else if (e.quantity > 0) {
+    formData.selectedDrinks.push(e);
+  }
+}
 </script>
 
 <style lang="scss">
