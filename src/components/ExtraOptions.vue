@@ -25,7 +25,7 @@
           :name="item.name"
           :isPromotion="item.promotion"
           :price="item.price"
-          @updateCounter="test"
+          @updateCounter="sendCounterUpwards"
         />
         <div v-if="!item.promotion" class="extra-options__item-price-container">
           <p v-if="item.price" class="extra-option__item-price">
@@ -171,7 +171,7 @@ const props = defineProps<{
 const emit = defineEmits();
 const modelValue = ref(props.modelValue);
 
-function test(e: any) {
+function sendCounterUpwards(e: any) {
   emit("updateCounterAgain", e);
 }
 </script>

@@ -71,7 +71,7 @@
           },
         ]"
         v-model="formData.selectedDrinks"
-        @updateCounterAgain="test"
+        @updateCounterAgain="addSelectedDrinks"
       />
       <ExtraOptions
         title="precisa de talher?"
@@ -141,7 +141,7 @@ const formData = reactive<{
   extraItems: [],
 });
 
-function test(e: { name: string; quantity: number }) {
+function addSelectedDrinks(e: { name: string; quantity: number }) {
   const indexOfItemToChange = formData.selectedDrinks.findIndex(
     (find) => find.name === e.name
   );
