@@ -85,9 +85,6 @@
         v-model="formData.selectedDrinks"
       />
 
-      <pre style="font-size: 1.5rem">
-        {{ formData }}
-      </pre>
       <ExtraOptions
         title="precisa de talher?"
         subtitle="escolha até 1"
