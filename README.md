@@ -1,18 +1,58 @@
-# Vue 3 + TypeScript + Vite
+# Projeto: Sistema de Pedido de Comida Online
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Introdução
 
-## Recommended IDE Setup
+Sistema responsivo de pedido de comida online desenvolvido para o processo seletivo da AIQFOME! Este projeto tem como objetivo simular a experiência de fazer um pedido de comida online, proporcionando uma interface amigável e intuitiva.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Tecnologias Utilizadas
 
-## Type Support For `.vue` Imports in TS
+- **Front-end:** Vue
+- **Estilização:** SCSS
+- **Bundle:** Vite
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## Funcionalidades
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+1. **Seleção de Itens:**
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+- Visualização do cardápio do restaurante.
+- Adição de itens ao carrinho.
+- Controle de quantidade e remoção de itens.
+
+## Estrutura do Projeto
+
+- `src/components`: Componentes Vue reutilizáveis.
+- `src/assets`: Imagens.
+- `src/types`: Pasta para armazenar tipagem dos componente.
+
+## Rodando o Projeto Localmente
+
+1. Clone este repositório.
+
+   ```bash
+   git clone https://github.com/andradeviniicius/aiqfome-teste.git
+   ```
+
+2. Instale as dependências.
+
+   ```bash
+   npm install
+   ```
+
+3. Inicie a aplicação.
+
+   ```bash
+   npm run dev
+   ```
+
+4. Acesse a aplicação no navegador.
+   ```bash
+   http://localhost:3000
+   ```
+
+## Considerações Adicionais
+
+- Certifique-se de ter o Node.js instalado.
+- Este projeto utiliza a abordagem de componentização para facilitar a manutenção e escalabilidade.
+- O projeto é responsivo, funcionando tanto em mobile quanto web
+
+FOME DE QUÊ? FOME DE MUDANÇA! 💪💜
