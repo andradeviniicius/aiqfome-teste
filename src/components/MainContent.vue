@@ -172,7 +172,9 @@ const orderSummary = computed(() => {
 
   // preço total tamanho do produto
   if (formData.value.productSize && formData.value.productSize.price) {
-    totalPriceValue += parseFloat(formData.value.productSize.price.replace(",", "."));
+    totalPriceValue += parseFloat(
+      formData.value.productSize.price.replace(",", ".")
+    );
   }
 
   // preço total selected drinks
@@ -222,6 +224,10 @@ function decrementTotalQuantity() {
   }
   &__name {
     font-size: 2.4rem;
+  }
+
+  @media (max-width: 825px) {
+    padding: 5%;
   }
 }
 
@@ -314,7 +320,7 @@ function decrementTotalQuantity() {
     width: 100%;
 
     textarea {
-      min-width: 64.4rem;
+      width: 44%;
       min-height: 5.8rem;
 
       border: 1px solid #cdd1d9;
@@ -331,6 +337,49 @@ function decrementTotalQuantity() {
         font-size: 1.4rem;
         line-height: 1.9rem;
         color: #6d6f73;
+      }
+    }
+  }
+
+  @media (max-width: 825px) {
+    &-overview {
+      flex-direction: column;
+      padding: 5%;
+      &__info {
+      }
+
+      &__name {
+      }
+
+      &__text {
+        &--quantity {
+        }
+        &--total {
+          span {
+          }
+        }
+      }
+
+      &__price {
+      }
+
+      &__description {
+      }
+
+      &__add-container {
+      }
+
+      &__add-btn {
+      }
+    }
+
+    &-details {
+    }
+
+    &-notes {
+      textarea {
+        &::placeholder {
+        }
       }
     }
   }

@@ -371,5 +371,95 @@ function decrementThisValue(name: string) {
       }
     }
   }
+
+  @media (max-width: 825px) {
+    &__container {
+      padding: 5%;
+    }
+    &__upperside {
+    }
+
+    &__title {
+    }
+    &__subtitle {
+    }
+    &__mandatory-tag {
+    }
+
+    &__downside {
+      grid-template-rows: repeat(3, 1fr);
+      grid-template-columns: 1fr;
+    }
+    &__item {
+      &--quantitative,
+      &--multiple,
+      &--single {
+      }
+
+      &-quantity-btn {
+        &.large {
+        }
+
+        &--plus {
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+
+          &::before {
+          }
+          &::after {
+          }
+
+          &.large {
+            &::before {
+            }
+            &::after {
+            }
+          }
+        }
+
+        &--minus {
+          &::before {
+          }
+
+          &.large {
+            &::before {
+            }
+          }
+
+          &.disabled {
+            &::before {
+            }
+          }
+        }
+      }
+
+      &-counter {
+        &.large {
+        }
+      }
+
+      &-promotion-icon {
+      }
+
+      &-name {
+      }
+
+      &-price {
+        margin: 0;
+        &-container {
+        }
+
+        &--old {
+        }
+        &--promotion {
+        }
+      }
+    }
+  }
 }
 </style>
