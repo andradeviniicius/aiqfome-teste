@@ -143,15 +143,18 @@
 
 <script setup lang="ts">
 import { CurrencyDollarIcon } from "@heroicons/vue/24/outline";
-import { ref, defineEmits } from "vue";
+import { defineEmits, computed } from "vue";
 import Counter from "@components/Counter.vue";
-import {
-  ExtraOptionsProps,
-} from "../types/extra-option";
+import { ExtraOptionsProps } from "../types/extra-option";
 
 const props = defineProps<ExtraOptionsProps>();
 const emit = defineEmits();
-const modelValue = ref(props.modelValue);
+const modelValue = computed({
+  get: () => props.modelValue,
+  set(value) {
+    emit("update:modelValue", value);
+  },
+});
 
 function sendCounterUpwards(e: any) {
   emit("updateCounterAgain", e);
