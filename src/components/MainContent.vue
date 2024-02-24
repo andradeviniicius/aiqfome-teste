@@ -32,7 +32,7 @@
           </div>
           <button
             v-if="!showOrderCount"
-            @click="showOrderCount = !showOrderCount"
+            @click="handleAddBtnClick"
             class="product-overview__add-btn"
           >
             adicionar
@@ -209,6 +209,13 @@ function decrementTotalQuantity() {
   if (formData.value.totalAmount > 1) {
     formData.value.totalAmount--;
   }
+}
+
+function handleAddBtnClick() {
+  if (formData.value.productSize.name === "empty") {
+    return alert("Você deve escolher um tamanho primeiro");
+  }
+  showOrderCount.value = !showOrderCount.value;
 }
 </script>
 
