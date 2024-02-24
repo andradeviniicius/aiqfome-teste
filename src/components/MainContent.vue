@@ -54,10 +54,6 @@
 
       <img class="product-image" src="@assets/ceviche.png" />
     </div>
-    <pre style="font-size: 1.8rem">
-    {{ formData }}
-  </pre
-    >
     <div class="product-details">
       <ExtraOptions
         title="qual o tamanho?"
@@ -79,6 +75,7 @@
         }"
         v-model="formData.productSize"
       />
+
       <ExtraOptions
         title="vai querer bebida"
         subtitle="escolha quantos quiser"
@@ -92,13 +89,16 @@
             price: '6,00',
           },
           {
-            name: 'água sem gás',
+            name: 'agua sem gas',
             price: '3,00',
           },
         ]"
         v-model="formData.selectedDrinks"
         @updateCounterAgain="addSelectedDrinks"
       />
+      <pre style="font-size: 1.5rem">
+        {{ formData }}
+      </pre>
       <ExtraOptions
         title="precisa de talher?"
         subtitle="escolha até 1"
@@ -151,7 +151,23 @@ import { FormData, QuantitativeItem } from "../types/main-content";
 
 const initialFormState: FormData = {
   productSize: { price: "0", name: "empty" },
-  selectedDrinks: [],
+  selectedDrinks: [
+    {
+      name: "suco prats laranja",
+      quantity: 0,
+      price: "6,00",
+    },
+    {
+      name: "agua sem gas",
+      quantity: 0,
+      price: "3,00",
+    },
+    {
+      name: "coca-cola",
+      quantity: 0,
+      price: "5,00",
+    },
+  ],
   extraSilverware: { price: "0", name: "empty" },
   extraItems: [],
 };
@@ -159,6 +175,7 @@ const formData = reactive<FormData>({ ...initialFormState });
 
 function resetForm() {
   Object.assign(formData, initialFormState);
+  formData.selectedDrinks = [...initialFormState.selectedDrinks];
 }
 
 function addSelectedDrinks(e: QuantitativeItem) {
@@ -168,10 +185,6 @@ function addSelectedDrinks(e: QuantitativeItem) {
 
   if (indexOfItemToChange !== -1) {
     formData.selectedDrinks[indexOfItemToChange] = e;
-
-    if (e.quantity === 0) {
-      formData.selectedDrinks.splice(indexOfItemToChange, 1);
-    }
   } else if (e.quantity > 0) {
     formData.selectedDrinks.push(e);
   }

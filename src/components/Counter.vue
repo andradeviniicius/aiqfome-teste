@@ -21,7 +21,14 @@
         @click="handleTrashCanClik"
       />
 
-      <p :class="`extra-option__item-counter ${size}`">
+      <p
+        v-if="!showTrashCanWhenCounterZero"
+        :class="`extra-option__item-counter ${size}`"
+      >
+        {{ modelValueComputed.find((el: any) => el.name == name).quantity }}
+      </p>
+
+      <p v-else :class="`extra-option__item-counter ${size}`">
         {{ counter }}
       </p>
 
@@ -49,8 +56,13 @@ const {
   showTrashCanWhenCounterZero,
   size,
   startCounterAt,
+  modelValue,
 } = defineProps<CounterProps>();
 
+const modelValueComputed = computed({
+  get: () => modelValue,
+  set(value) {},
+});
 let isDisabled = computed(() => counter.value === 0);
 
 const emits = defineEmits(["updateCounter", "trashCanClick"]);
@@ -58,6 +70,9 @@ const emits = defineEmits(["updateCounter", "trashCanClick"]);
 let counter = ref(startCounterAt ? startCounterAt : 0);
 
 const handleTrashCanClik = () => {
+  counter.value = 0;
+  console.log(`oiii`);
+
   emits("trashCanClick");
 };
 
