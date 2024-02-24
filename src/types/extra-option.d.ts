@@ -13,6 +13,7 @@ type QuantitativeOptions = {
   name: string;
   price: string;
   promotion?: string;
+  quantity: number;
 };
 
 export type ExtraOptionsProps = {

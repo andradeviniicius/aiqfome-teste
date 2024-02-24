@@ -6,4 +6,5 @@ export type CounterProps = {
   showTrashCanWhenCounterZero?: boolean;
   startCounterAt?: number;
   modelValue?: any;
+  counter: number;
 };

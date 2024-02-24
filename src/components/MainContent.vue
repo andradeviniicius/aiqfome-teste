@@ -44,9 +44,11 @@
               resetForm();
               showOrderCount = !showOrderCount;
             "
-            @updateCounter="handleAddQuantity"
             size="large"
             :startCounterAt="1"
+            @increment="incrementTotalQuantity"
+            @decrement="decrementTotalQuantity"
+            :counter="formData.totalAmount"
             v-else
           />
         </div>
@@ -79,23 +81,10 @@
       <ExtraOptions
         title="vai querer bebida"
         subtitle="escolha quantos quiser"
-        :chooseQuantityType="[
-          {
-            name: 'coca-cola',
-            price: '5,00',
-          },
-          {
-            name: 'suco prats laranja',
-            price: '6,00',
-          },
-          {
-            name: 'agua sem gas',
-            price: '3,00',
-          },
-        ]"
+        :chooseQuantityType="formData.selectedDrinks"
         v-model="formData.selectedDrinks"
-        @updateCounterAgain="addSelectedDrinks"
       />
+
       <pre style="font-size: 1.5rem">
         {{ formData }}
       </pre>
@@ -144,86 +133,84 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, ref } from "vue";
 import ExtraOptions from "./ExtraOptions.vue";
 import Counter from "./Counter.vue";
-import { FormData, QuantitativeItem } from "../types/main-content";
+import { FormData } from "../types/main-content";
 
-const initialFormState: FormData = {
-  productSize: { price: "0", name: "empty" },
-  selectedDrinks: [
-    {
-      name: "suco prats laranja",
-      quantity: 0,
-      price: "6,00",
-    },
-    {
-      name: "agua sem gas",
-      quantity: 0,
-      price: "3,00",
-    },
-    {
-      name: "coca-cola",
-      quantity: 0,
-      price: "5,00",
-    },
-  ],
-  extraSilverware: { price: "0", name: "empty" },
-  extraItems: [],
+const createInitialState = () => {
+  return {
+    totalAmount: 1,
+    productSize: { price: "0", name: "empty" },
+    selectedDrinks: [
+      {
+        name: "coca-cola",
+        quantity: 0,
+        price: "5,00",
+      },
+      {
+        name: "suco prats laranja",
+        quantity: 0,
+        price: "6,00",
+      },
+      {
+        name: "agua sem gas",
+        quantity: 0,
+        price: "3,00",
+      },
+    ],
+    extraSilverware: { price: "0", name: "empty" },
+    extraItems: [],
+  };
 };
-const formData = reactive<FormData>({ ...initialFormState });
+
+let formData = ref<FormData>(createInitialState());
 
 function resetForm() {
-  Object.assign(formData, initialFormState);
-  formData.selectedDrinks = [...initialFormState.selectedDrinks];
-}
-
-function addSelectedDrinks(e: QuantitativeItem) {
-  const indexOfItemToChange = formData.selectedDrinks.findIndex(
-    (find) => find.name === e.name
-  );
-
-  if (indexOfItemToChange !== -1) {
-    formData.selectedDrinks[indexOfItemToChange] = e;
-  } else if (e.quantity > 0) {
-    formData.selectedDrinks.push(e);
-  }
-}
-
-let counter = ref(0);
-function handleAddQuantity(e: any) {
-  counter.value = e.quantity;
+  formData.value = createInitialState();
 }
 
 const orderSummary = computed(() => {
-  let totalAmount = 0;
+  let totalPriceValue = 0;
 
   // preço total tamanho do produto
-  if (formData.productSize && formData.productSize.price) {
-    totalAmount += parseFloat(formData.productSize.price.replace(",", "."));
+  if (formData.value.productSize && formData.value.productSize.price) {
+    totalPriceValue += parseFloat(formData.value.productSize.price.replace(",", "."));
   }
 
   // preço total selected drinks
-  formData.selectedDrinks.forEach((drink) => {
-    totalAmount += parseFloat(drink.price.replace(",", ".")) * drink.quantity;
+  formData.value.selectedDrinks.forEach((drink) => {
+    totalPriceValue +=
+      parseFloat(drink.price.replace(",", ".")) * drink.quantity;
   });
 
   // preço total talhers
-  if (formData.extraSilverware && formData.extraSilverware.price) {
-    totalAmount += parseFloat(formData.extraSilverware.price.replace(",", "."));
+  if (formData.value.extraSilverware && formData.value.extraSilverware.price) {
+    totalPriceValue += parseFloat(
+      formData.value.extraSilverware.price.replace(",", ".")
+    );
   }
 
   // preço total itens extra
-  formData.extraItems.forEach((item) => {
-    totalAmount += parseFloat(item.price.replace(",", "."));
+  formData.value.extraItems.forEach((item) => {
+    totalPriceValue += parseFloat(item.price.replace(",", "."));
   });
 
-  totalAmount *= counter.value;
+  totalPriceValue *= formData.value.totalAmount;
 
-  return `${totalAmount.toFixed(2)}`;
+  return `${totalPriceValue.toFixed(2)}`;
 });
 
 let showOrderCount = ref(false);
+
+function incrementTotalQuantity() {
+  formData.value.totalAmount++;
+}
+function decrementTotalQuantity() {
+  if (formData.value.totalAmount > 1) {
+    formData.value.totalAmount--;
+  }
+}
 </script>
 
 <style lang="scss">

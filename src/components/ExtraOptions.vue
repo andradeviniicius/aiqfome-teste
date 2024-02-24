@@ -25,8 +25,9 @@
           :name="item.name"
           :isPromotion="item.promotion"
           :price="item.price"
-          @updateCounter="sendCounterUpwards"
-          v-model="modelValue"
+          :counter="item.quantity"
+          @increment="incrementThisValue(item.name)"
+          @decrement="decrementThisValue(item.name)"
         />
         <div v-if="!item.promotion" class="extra-options__item-price-container">
           <p v-if="item.price" class="extra-option__item-price">
@@ -149,6 +150,7 @@ import { ExtraOptionsProps } from "../types/extra-option";
 
 const props = defineProps<ExtraOptionsProps>();
 const emit = defineEmits();
+
 const modelValue = computed({
   get: () => props.modelValue,
   set(value) {
@@ -156,8 +158,17 @@ const modelValue = computed({
   },
 });
 
-function sendCounterUpwards(e: any) {
-  emit("updateCounterAgain", e);
+function incrementThisValue(name: string) {
+  modelValue.value!.find((el: { name: string }) => el.name == name).quantity++;
+}
+function decrementThisValue(name: string) {
+  if (
+    modelValue.value!.find((el: { name: string }) => el.name == name).quantity >
+    0
+  ) {
+    modelValue.value!.find((el: { name: string }) => el.name == name)
+      .quantity--;
+  }
 }
 </script>
 

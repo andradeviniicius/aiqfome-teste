@@ -9,9 +9,9 @@ export type Item = {
 };
 
 export type FormData = {
+  totalAmount: number;
   productSize: Item;
   selectedDrinks: QuantitativeItem[];
   extraSilverware: Item;
   extraItems: Item[];
 };
-
