@@ -1,7 +1,12 @@
 <template>
   <header>
     <div class="header__left-side">
-      <img src="@assets/aiq-branding.svg" alt="Aiq Branding" />
+      <img
+        src="@assets/aiq-branding.svg"
+        alt="Aiq Branding"
+        class="header-logo"
+        @click="router.push('/')"
+      />
       <div v-if="width > 767" class="header-location__container">
         <MapPinIcon class="header-location__map-icon" />
         <div class="header-location__info">
@@ -58,6 +63,9 @@
 import { ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 import { MapPinIcon, UserIcon } from "@heroicons/vue/24/outline";
 import { useWindowSize } from "@vueuse/core";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const { width } = useWindowSize();
 </script>
@@ -79,6 +87,9 @@ header {
   background-color: #7b1fa2;
 
   .header {
+    &-logo {
+      cursor: pointer;
+    }
     &__left-side {
       display: flex;
       justify-content: start;

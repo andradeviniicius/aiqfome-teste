@@ -26,6 +26,12 @@ export default defineConfig({
           new URL("./src/composable", import.meta.url)
         ),
       },
+      {
+        find: "@pages",
+        replacement: fileURLToPath(
+          new URL("./src/pages", import.meta.url)
+        ),
+      },
     ],
   },
 });

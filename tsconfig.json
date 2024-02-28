@@ -24,7 +24,8 @@
       "@/*": ["./src/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
-      "@composables/*": ["./src/composables/*"]
+      "@composables/*": ["./src/composables/*"],
+      "@pages/*": ["./src/pages/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],

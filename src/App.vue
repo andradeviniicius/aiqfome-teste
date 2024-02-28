@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Header from "@components/Header.vue";
-import MainContent from "@components/MainContent.vue";
+import { Header } from "@components/index";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
   <Header />
 
-  <MainContent />
+  <RouterView />
 
   <footer>
     <p>feito com 💜 em maringá-PR</p>
@@ -15,6 +15,7 @@ import MainContent from "@components/MainContent.vue";
 </template>
 
 <style lang="scss">
+
 footer {
   color: #580f78;
   margin-top: 4.8rem;
